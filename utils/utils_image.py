@@ -9,12 +9,6 @@ from datetime import datetime
 # import torchvision.transforms as transforms
 import matplotlib.pyplot as plt
 
-'''
-modified by Kai Zhang (github: https://github.com/cszn)
-03/03/2019
-https://github.com/twhui/SRGAN-pyTorch
-https://github.com/xinntao/BasicSR
-'''
 
 IMG_EXTENSIONS = ['.jpg', '.JPG', '.jpeg', '.JPEG', '.png', '.PNG', '.ppm', '.PPM', '.bmp', '.BMP']
 

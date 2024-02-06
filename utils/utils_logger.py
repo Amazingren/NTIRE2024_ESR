@@ -4,13 +4,6 @@ import datetime
 import logging
 
 
-'''
-modified by Kai Zhang (github: https://github.com/cszn)
-03/03/2019
-https://github.com/xinntao/BasicSR
-'''
-
-
 def log(*args, **kwargs):
     print(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S:"), *args, **kwargs)
 
