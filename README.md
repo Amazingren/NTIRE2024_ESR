@@ -4,7 +4,7 @@
 
 Jointly with NTIRE workshop we have a challenge on Efficient Super-Resolution, that is, the task of super-resolving (increasing the resolution) an input image with a magnification factor x4 based on a set of prior examples of low and corresponding high resolution images. The challenge has three tracks.
 
-The aim is to devise a network that reduces one or several aspects such as runtime, parameters, FLOPs, activations, and depth of RFDN (https://arxiv.org/pdf/2009.11551.pdf) while at least maintaining PSNR of 29.00dB on validation datasets.
+The aim is to devise a network that reduces one or several aspects such as runtime, parameters, FLOPs, activations, and depth of RLFN (https://arxiv.org/pdf/2205.07514.pdf), the winner solution of the NTIRE2022 Efficient Super-Resolution Challenge, while at least maintaining PSNR of 29.00dB on validation datasets.
 
 Note that for the final ranking and challenge winners we are weighing more the teams/participants improving in more than one aspect (runtime, parameters, FLOPs, activations, depths) over the provided reference solution.
 
@@ -44,8 +44,8 @@ For the sake of fairness, please do not train your model with the validation LR 
 
 ```python
     from utils.model_summary import get_model_flops, get_model_activation
-    from models.team00_RFDN import RFDN
-    model = RFDN()
+    from models.team00_RLFN import RLFN_Prune
+    model = RLFN_Prune()
     
     input_dim = (3, 256, 256)  # set the input dimension
     activations, num_conv = get_model_activation(model, input_dim)

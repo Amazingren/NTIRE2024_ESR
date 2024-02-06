@@ -16,12 +16,20 @@ def select_model(args, device):
     # Different networks are trained with input range of either [0,1] or [0,255]. The range is determined manually.
     model_id = args.model_id
     if model_id == 0:
-        # RFDN baseline, AIM 2020 Efficient SR Challenge winner
-        from models.team00_RFDN import RFDN
-        name, data_range = f"{model_id:02}_RFDN_baseline", 255.0
-        model_path = os.path.join('model_zoo', 'team00_rfdn.pth')
-        model = RFDN()
+        # Baseline: Winner of the NTIRE 2022 Efficient SR Challenge 
+        # RLFN: Residual Local Feature Network for Efficient Super-Resolution
+        # arXiv: https://arxiv.org/pdf/2205.07514.pdf
+        # Original Code: https://github.com/bytedance/RLFN
+        # Ckpts: rlfn_ntire_x4.pth
+        from models.team00_RLFN import RLFN_Prune
+        name, data_range = f"{model_id:02}_RLFN_baseline", 255.0
+        model_path = os.path.join('model_zoo', 'team00_rlfn.pth')
+        model = RLFN_Prune()
         model.load_state_dict(torch.load(model_path), strict=True)
+
+    # elif model_id == 1:
+    #     from models.team[Your_Team_ID]_[Model_Name] import [Model_Name]
+    #     ...
     else:
         raise NotImplementedError(f"Model {model_id} is not implemented.")
 
