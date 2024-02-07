@@ -185,20 +185,20 @@ class RLFN_Prune(nn.Module):
                  upscale=4):
         super(RLFN_Prune, self).__init__()
 
-        self.conv_1 = block.conv_layer(in_channels,
+        self.conv_1 = conv_layer(in_channels,
                                        feature_channels,
                                        kernel_size=3)
 
-        self.block_1 = block.RLFB(feature_channels, mid_channels)
-        self.block_2 = block.RLFB(feature_channels, mid_channels)
-        self.block_3 = block.RLFB(feature_channels, mid_channels)
-        self.block_4 = block.RLFB(feature_channels, mid_channels)
+        self.block_1 = RLFB(feature_channels, mid_channels)
+        self.block_2 = RLFB(feature_channels, mid_channels)
+        self.block_3 = RLFB(feature_channels, mid_channels)
+        self.block_4 = RLFB(feature_channels, mid_channels)
 
-        self.conv_2 = block.conv_layer(feature_channels,
+        self.conv_2 = conv_layer(feature_channels,
                                        feature_channels,
                                        kernel_size=3)
 
-        self.upsampler = block.pixelshuffle_block(feature_channels,
+        self.upsampler = pixelshuffle_block(feature_channels,
                                                   out_channels,
                                                   upscale_factor=upscale)
 

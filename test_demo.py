@@ -220,7 +220,7 @@ def main(args):
         # --------------------------------
 
         if args.hybrid_test:
-            # inference on the DIV2K and LSDIR test set
+            # inference on both the DIV2K and LSDIR test set
             valid_results = run(model, model_name, data_range, tile, logger, device, args, mode="hybrid_test")
             # record PSNR, runtime
             results[model_name] = valid_results
@@ -230,8 +230,8 @@ def main(args):
             # record PSNR, runtime
             results[model_name] = valid_results
 
+            # inference on the test set
             if args.include_test:
-                # inference on the test set
                 test_results = run(model, model_name, data_range, tile, logger, device, args, mode="test")
                 results[model_name].update(test_results)
 
@@ -287,8 +287,8 @@ def main(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser("NTIRE2024-EfficientSR")
-    parser.add_argument("--data_dir", default="/cluster/work/cvl/yawli/data/NTIRE2024_Challenge", type=str)
-    parser.add_argument("--save_dir", default="/cluster/work/cvl/yawli/data/NTIRE2024_Challenge/results", type=str)
+    parser.add_argument("--data_dir", default="../", type=str)
+    parser.add_argument("--save_dir", default="../results", type=str)
     parser.add_argument("--model_id", default=0, type=int)
     parser.add_argument("--include_test", action="store_true", help="Inference on the DIV2K test set")
     parser.add_argument("--hybrid_test", action="store_true", help="Hybrid test on DIV2K and LSDIR test set")
