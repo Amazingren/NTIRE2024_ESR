@@ -1,0 +1,2 @@
+Model               	Val PSNR  	Val Time [ms] 	Params [M]	FLOPs [G] 	Acts [M]	Mem [M] 	Conv    
+00_RLFN_baseline    	27.07     	14.75         	0.317     	19.70     	80.05   	774.28  	  39    

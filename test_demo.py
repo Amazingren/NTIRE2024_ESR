@@ -42,22 +42,44 @@ def select_model(args, device):
     return model, name, data_range, tile
 
 
-def select_dataset(data_dir, mode):
+def select_dataset(data_dir, dataset_name, mode):
     if mode == "test":
-        path = [
-            (
-                os.path.join(data_dir, f"DIV2K_test_LR/{i:04}.png"),
-                os.path.join(data_dir, f"DIV2K_test_HR/{i:04}.png")
-            ) for i in range(901, 1001)
-        ]
-        # [f"DIV2K_test_LR/{i:04}.png" for i in range(901, 1001)]
+        if dataset_name == "DIV2K":
+            path = [
+                (
+                    os.path.join(data_dir, f"DIV2K_test_LR/{i:04}x4.png"),
+                    os.path.join(data_dir, f"DIV2K_test_HR/{i:04}.png")
+                ) for i in range(901, 1001)
+            ]
+            # [f"DIV2K_test_LR/{i:04}.png" for i in range(901, 1001)]
+        elif dataset_name == "LSDIR":
+            path = [
+                (
+                    os.path.join(data_dir, f"LSDIR_test_LR/{i:07}x4.png"),
+                    os.path.join(data_dir, f"LSDIR_test_HR/{i:07}.png")
+                ) for i in range(1, 101)
+            ]
+        else:
+            raise NotImplementedError(f"{dataset_name} is not the provided dataset")
+
     elif mode == "valid":
-        path = [
-            (
-                os.path.join(data_dir, f"DIV2K_valid_LR/{i:04}x4.png"),
-                os.path.join(data_dir, f"DIV2K_valid_HR/{i:04}.png")
-            ) for i in range(801, 901)
-        ]
+        if dataset_name == "DIV2K":
+            path = [
+                (
+                    os.path.join(data_dir, f"DIV2K_valid_LR/{i:04}x4.png"),
+                    os.path.join(data_dir, f"DIV2K_valid_HR/{i:04}.png")
+                ) for i in range(801, 901)
+            ]
+        elif dataset_name == "LSDIR":
+            path = [
+                (
+                    os.path.join(data_dir, f"LSDIR_valid_LR/{i:07}x4.png"),
+                    os.path.join(data_dir, f"LSDIR_valid_HR/{i:07}.png")
+                ) for i in range(1, 101)
+            ]
+        else:
+            raise NotImplementedError(f"{dataset_name} is not the provided dataset")
+
     elif mode == "hybrid_test":
         path = [
             (
@@ -67,6 +89,7 @@ def select_dataset(data_dir, mode):
         ]
     else:
         raise NotImplementedError(f"{mode} is not implemented in select_dataset")
+    
     return path
 
 
@@ -115,7 +138,7 @@ def run(model, model_name, data_range, tile, logger, device, args, mode="test"):
     # --------------------------------
     # dataset path
     # --------------------------------
-    data_path = select_dataset(args.data_dir, mode)
+    data_path = select_dataset(args.data_dir, args.dataset_name, mode)
     save_path = os.path.join(args.save_dir, model_name, mode)
     util.mkdir(save_path)
 
@@ -181,8 +204,9 @@ def run(model, model_name, data_range, tile, logger, device, args, mode="test"):
         results[f"{mode}_ave_ssim"] = sum(results[f"{mode}_ssim"]) / len(results[f"{mode}_ssim"])
     # results[f"{mode}_ave_psnr_y"] = sum(results[f"{mode}_psnr_y"]) / len(results[f"{mode}_psnr_y"])
     # results[f"{mode}_ave_ssim_y"] = sum(results[f"{mode}_ssim_y"]) / len(results[f"{mode}_ssim_y"])
-    logger.info("{:>16s} : {:<.3f} [M]".format("Max Memery", results[f"{mode}_memory"]))  # Memery
-    logger.info("------> Average runtime of ({}) is : {:.6f} seconds".format("test" if mode == "test" else "valid", results[f"{mode}_ave_runtime"]))
+    logger.info("{:>16s} : {:<.3f} [M]".format("Max Memory", results[f"{mode}_memory"]))  # Memery
+    logger.info("------> Average runtime of ({}) is : {:.6f} milliseconds".format("test" if mode == "test" else "valid", results[f"{mode}_ave_runtime"]))
+    logger.info("------> Average PSNR of ({}) is : {:.6f} dB".format("test" if mode == "test" else "valid", results[f"{mode}_ave_psnr"]))
 
     return results
 
@@ -289,6 +313,10 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser("NTIRE2024-EfficientSR")
     parser.add_argument("--data_dir", default="../", type=str)
     parser.add_argument("--save_dir", default="../results", type=str)
+    parser.add_argument("--dataset_name", default="DIV2K", 
+                        type=str, 
+                        help= "Choose 'DIV2K or 'LSDIR' for validate and test only, \
+                        when 'hybrid_test' is applied, no need to specify 'dataset_name'")
     parser.add_argument("--model_id", default=0, type=int)
     parser.add_argument("--include_test", action="store_true", help="Inference on the DIV2K test set")
     parser.add_argument("--hybrid_test", action="store_true", help="Hybrid test on DIV2K and LSDIR test set")
