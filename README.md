@@ -12,13 +12,13 @@ For the sake of fairness, please do not train your model with the validation LR 
 
 ## The Environments
 
-The evaluation environments adopted by us is recorded in the `requirements.txt`. After you built you own basic Python setup via either *virtual environment* or *anaconda*, please try to keep similar to it via:
+The evaluation environments adopted by us is recorded in the `requirements.txt`. After you built your own basic Python setup via either *virtual environment* or *anaconda*, please try to keep similar to it via:
 
 ```pip install -r requirements.txt```
 
-## The Validation datasets
+or take it as a reference based on your original environments.
 
-TODO
+## The Validation datasets
 After downloaded all the necessary validate datasets, please organize them as follows:
 
 ```
@@ -44,6 +44,7 @@ After downloaded all the necessary validate datasets, please organize them as fo
 |    |--test_demo.py
 |    |--...
 |--results/
+|--......
 ```
 
 ## How to test the baseline model?
@@ -54,7 +55,7 @@ After downloaded all the necessary validate datasets, please organize them as fo
     CUDA_VISIBLE_DEVICES=0 python test_demo.py --data_dir [path to your data dir] --save_dir [path to your save dir] --model_id -1
     ```
     - Be sure the change the directories `--data_dir` and `--save_dir`.
-
+3. More detailed example-command can be found in `run.sh` for your convenience.
 
 ## How to add your model to this baseline?
 
