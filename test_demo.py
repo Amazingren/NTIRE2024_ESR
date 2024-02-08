@@ -6,6 +6,7 @@ import json
 import glob
 
 from pprint import pprint
+from fvcore.nn import FlopCountAnalysis
 from utils.model_summary import get_model_activation, get_model_flops
 from utils import utils_logger
 from utils import utils_image as util
@@ -268,6 +269,11 @@ def main(args):
         flops = get_model_flops(model, input_dim, False)
         flops = flops/10**9
         logger.info("{:>16s} : {:<.4f} [G]".format("FLOPs", flops))
+
+        # fvcore is also used in NTIRE2024_ESR for FLOPs 
+        # flops = FlopCountAnalysis(model, input_dim).total()
+        # flops = flops/10**9
+        # logger.info("{:>16s} : {:<.4f} [G]".format("FLOPs", flops))
 
         num_parameters = sum(map(lambda x: x.numel(), model.parameters()))
         num_parameters = num_parameters/10**6
