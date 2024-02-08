@@ -8,7 +8,7 @@
 
 Jointly with NTIRE workshop we have a challenge on Efficient Super-Resolution, that is, the task of super-resolving (increasing the resolution) an input image with a magnification factor x4 based on a set of prior examples of low and corresponding high resolution images. The challenge has three tracks.
 
-The aim is to devise a network that reduces one or several aspects such as runtime, parameters, FLOPs, activations, and depth of RLFN (https://arxiv.org/pdf/2205.07514.pdf), the winner solution of the NTIRE2022 Efficient Super-Resolution Challenge, while at least maintaining PSNR of 29.00dB on validation datasets and PSNR 28.72 on test set.
+The aim is to devise a network that reduces one or several aspects such as runtime, parameters, FLOPs, activations, and depth of RLFN (https://arxiv.org/pdf/2205.07514.pdf), the winner solution of the NTIRE2022 Efficient Super-Resolution Challenge, while at least maintaining PSNR of 29.00dB on DIV2K validation datasets and PSNR 28.72 on DIV2K test set.
 
 Note that for the final ranking and challenge winners we are weighing more the teams/participants improving in more than one aspect (runtime, parameters, FLOPs, activations, depths) over the provided reference solution.
 
