@@ -109,5 +109,14 @@ After downloaded all the necessary validate datasets, please organize them as fo
     print("{:>16s} : {:<.4f} [M]".format("#Params", num_parameters))
 ```
 
+## Organizers
+- Yawei Li (yawei.li@vision.ee.ethz.ch), 
+- Bin Ren (bin.ren@unitn.it)
+- Radu Timofte (Radu.Timofte@uni-wuerzburg.de) 
+
+If you have any question, feel free to reach out the contact persons and direct managers of the NTIRE challenge.
+
+
+
 ## License and Acknowledgement
 This code repository is release under [MIT License](LICENSE). 
