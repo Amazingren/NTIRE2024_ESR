@@ -10,16 +10,15 @@ In collaboration with the NTIRE workshop, we are hosting a challenge focused on 
 
 - Sub-track 1: **Inference Runtime**, the aim is to obtain a network design / solution with the lowest inference time (runtime) on a common GPU (i.e., NVIDIA GeForce RTX 3090 GPU) while being constrained to maintain or improve over the baseline method RLFN in terms of number of parameters, FLOPs, and the PSNR result.
 
-- Sub-track 2: **FLOPs**, the aim is to obtain a network design / solution with the lowest amount of FLOPs while being constrained to maintain or improve the PSNR result, FLOPs, and the inference time (runtime) of RLFN.
+- Sub-track 2: **FLOPs**, the aim is to obtain a network design / solution with the lowest amount of FLOPs on a common GPU (i.e., NVIDIA GeForce RTX 3090 GPU) while being constrained to maintain or improve the inferece runtime, the parameters, and the PSNR results of RLFN.
 
-- Sub-track 3: **Parameters**, the aim is to obtain a network design / solution with the lowest amount of parameters while being constrained to maintain or improve the PSNR result, the FLOPs, and the inference time (runtime) of RLFN.
+- Sub-track 3: **Parameters**, the aim is to obtain a network design / solution with the lowest amount of parameters on a common GPU (i.e., NVIDIA GeForce RTX 3090 GPU) while being constrained to maintain the FLOPs, the inference time (runtime), and the PSNR result of RLFN.
 
-- Main-track: **Overall Performance** (Runtime, Parameters, FLOPs,) the aim is to obtain a network design / solution with the best overall performance in terms of inference runtime, FLOPS, and parameters on a common GPU (i.e., NVIDIA GeForce RTX 3090 GPU).
+- Main-track: **Overall Performance** (Runtime, Parameters, FLOPs,) the aim is to obtain a network design / solution with the best overall performance in terms of inference runtime, FLOPS, and parameters on a common GPU (i.e., NVIDIA GeForce RTX 3090 GPU) while being constrained to maintain or improve the PSNR results.
 
 It's important to highlight that to determine the final ranking and challenge winners, greater weight will be given to teams or participants who demonstrate improvements in more than one aspect (runtime, FLOPs, and parameters) over the provided reference solution.
 
 To ensure fairness in the evaluation process, it is imperative to adhere to the following guidelines:
-
 - **Avoid Training with Specific Image Sets:**
     Refrain from training your model using the validation LR images, validation HR images, or testing LR images. The test datasets will not be disclosed, making PSNR performance on the test datasets a crucial factor in the final evaluation.
 
@@ -77,8 +76,8 @@ After downloaded all the necessary validate dataset ([LSDIR_DIV2K_valid_LR](http
 3. More detailed example-command can be found in `run.sh` for your convenience.
 
 As a reference, we provide the results of RLFN (baseline method) below:
-- Average PSNR on LSDIR_DIV2K validation data: 26.96 dB
-- Average PSNR on LSDIR_DIV2K test data: 27.07 dB
+- Average PSNR on LSDIR_DIV2K_valid: 26.96 dB
+- Average PSNR on LSDIR_DIV2K_test: 27.07 dB
 - Number of parameters: 0.317 M
 - Runtime: 13.54 ms (Average runtime of 16.18 ms on LSDIR_DIV2K_valid data and 10.89 ms on LSDIR_DIV2K_test data)
 - FLOPs on an LR image of size 256×256: 19.70 G
@@ -138,7 +137,7 @@ As a reference, we provide the results of RLFN (baseline method) below:
 
 ## How the Ranking Strategy Works?
 
-After the organizers receive all the submitted codes/checkpoints/results, three steps are adopted for the evaluation:
+After the organizers receive all the submitted codes/checkpoints/results, four steps are adopted for the evaluation:
 
 - Step1: The organizers will execute each model five times to reevaluate all submitted methods on the same device, specifically the NVIDIA GeForce RTX 3090. The average results of these five runs will be documented for each metric.
 - Step2: To ensure PSNR consistency with the baseline method RLFN, PSNR checks will be conducted for all submitted methods. Any method with a PSNR below 26.90 dB on the LSDIR_DIV2K_valid dataset or less than 26.99 on the LSDIR_DIV2K_test datasets will be excluded from the comparison list for the remaining rankings. 
@@ -155,15 +154,14 @@ After the organizers receive all the submitted codes/checkpoints/results, three 
 ```
     Score_Final = 0.7*Score_Runtime + 0.15*Score_FLOPs + 0.15*Score_Params
 ```
-Let's Take the baseline as an example, given the results (i.e., average Runtime_RLFN = 13.54 ms, FLOPs_RLFN = 19.70 G, and Params_RLFN = 0.317 M) of RLFN, we have:
+Let's take the baseline as an example, given the results (i.e., average Runtime_RLFN = 13.54 ms, FLOPs_RLFN = 19.70 G, and Params_RLFN = 0.317 M) of RLFN, we have:
 ```
     Score_Runtime = 7.3891
     Score_FLOPs = 7.3891
     Score_Params = 7.3891
     Score_Final = 7.3891 
 ```
-
-The ranking for each sub-track will be generated based on the corresponding Score (i.e., Score_Runtime, Score_FLOPs, and Score_Params), while for the main track, the ranking will be determined by the Score_Final.
+The ranking for each sub-track will be generated based on the corresponding Score (i.e., *Score_Runtime*, *Score_FLOPs*, and *Score_Params*), while for the main track, the ranking will be determined by the *Score_Final*.
 
 
 ## Organizers
@@ -173,7 +171,6 @@ The ranking for each sub-track will be generated based on the corresponding Scor
 - Radu Timofte (Radu.Timofte@uni-wuerzburg.de) 
 
 If you have any question, feel free to reach out the contact persons and direct managers of the NTIRE challenge.
-
 
 
 ## License and Acknowledgement
