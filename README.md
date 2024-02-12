@@ -62,7 +62,7 @@ After downloaded all the necessary validate dataset ([LSDIR_DIV2K_valid_LR](http
 1. `git clone https://github.com/Amazingren/NTIRE2024_ESR.git`
 2. Select the model you would like to test from [`run.sh`](./run.sh)
     ```bash
-    CUDA_VISIBLE_DEVICES=0 python test_demo.py --data_dir [path to your data dir] --save_dir [path to your save dir] --model_id -1
+    CUDA_VISIBLE_DEVICES=0 python test_demo.py --data_dir [path to your data dir] --save_dir [path to your save dir] --model_id 0
     ```
     - Be sure the change the directories `--data_dir` and `--save_dir`.
 3. More detailed example-command can be found in `run.sh` for your convenience.
