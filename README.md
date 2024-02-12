@@ -6,15 +6,15 @@
 
 ## About the Challenge
 
-In collaboration with the NTIRE workshop, we are hosting a challenge focused on Efficient Super-Resolution. This involves the task of enhancing the resolution of an input image by a factor of x4, utilizing a set of pre-existing examples comprising both low-resolution and their corresponding high-resolution images. The challenge encompasses three sub-tracks, specifically the Inference Runtime, FLOPs (Floating Point Operations Per Second), and Parameters, in addition to a main track known as Overall Performance, which is comprised of these three sub-tracks. The baseline method in NTIRE2024_ESR is [RLFN](https://arxiv.org/pdf/2205.07514.pdf) (*Kong, et al, 2022*), the winner of NTIRE2022 Efficient Super-Resolution Challenge. Details are shown below:
+In collaboration with the NTIRE workshop, we are hosting a challenge focused on Efficient Super-Resolution. This involves the task of enhancing the resolution of an input image by a factor of x4, utilizing a set of pre-existing examples comprising both low-resolution and their corresponding high-resolution images. The challenge encompasses one :trophy: main track which consists of three :gem: sub-tracks, i.e., the Inference Runtime, FLOPs (Floating Point Operations Per Second), and Parameters. The baseline method in NTIRE2024_ESR is [RLFN](https://arxiv.org/pdf/2205.07514.pdf) (*Kong, et al, 2022*), the winner of NTIRE2022 Efficient Super-Resolution Challenge. Details are shown below:
+
+- :trophy: Main-track: **Overall Performance** (Runtime, Parameters, FLOPs,) the aim is to obtain a network design / solution with the best overall performance in terms of inference runtime, FLOPS, and parameters on a common GPU (i.e., NVIDIA GeForce RTX 3090 GPU) while being constrained to maintain or improve the PSNR results.
 
 - :gem: Sub-track 1: **Inference Runtime**, the aim is to obtain a network design / solution with the lowest inference time (runtime) on a common GPU (i.e., NVIDIA GeForce RTX 3090 GPU) while being constrained to maintain or improve over the baseline method RLFN in terms of number of parameters, FLOPs, and the PSNR result.
 
 - :gem: Sub-track 2: **FLOPs**, the aim is to obtain a network design / solution with the lowest amount of FLOPs on a common GPU (i.e., NVIDIA GeForce RTX 3090 GPU) while being constrained to maintain or improve the inferece runtime, the parameters, and the PSNR results of RLFN.
 
 - :gem: Sub-track 3: **Parameters**, the aim is to obtain a network design / solution with the lowest amount of parameters on a common GPU (i.e., NVIDIA GeForce RTX 3090 GPU) while being constrained to maintain the FLOPs, the inference time (runtime), and the PSNR result of RLFN.
-
-- :trophy: Main-track: **Overall Performance** (Runtime, Parameters, FLOPs,) the aim is to obtain a network design / solution with the best overall performance in terms of inference runtime, FLOPS, and parameters on a common GPU (i.e., NVIDIA GeForce RTX 3090 GPU) while being constrained to maintain or improve the PSNR results.
 
 It's important to highlight that to determine the final ranking and challenge winners, greater weight will be given to teams or participants who demonstrate improvements in more than one aspect (runtime, FLOPs, and parameters) over the provided reference solution.
 
