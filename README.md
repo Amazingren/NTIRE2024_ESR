@@ -6,17 +6,17 @@
 
 ## About the Challenge
 
-In collaboration with the NTIRE workshop, we are hosting a challenge focused on Efficient Super-Resolution. This involves the task of enhancing the resolution of an input image by a factor of x4, utilizing a set of pre-existing examples comprising both low-resolution and their corresponding high-resolution images. The challenge encompasses three sub-tracks, specifically the Inference Runtime, Parameters, and FLOPs (Floating Point Operations Per Second), in addition to a main track known as Overall Performance, which is comprised of these three sub-tracks. The baseline method in NTIRE2024_ESR is [RLFN](https://arxiv.org/pdf/2205.07514.pdf) (*Kong, et al, 2022*), the winner of NTIRE2022 Efficient Super-Resolution Challenge. Details are shown below:
+In collaboration with the NTIRE workshop, we are hosting a challenge focused on Efficient Super-Resolution. This involves the task of enhancing the resolution of an input image by a factor of x4, utilizing a set of pre-existing examples comprising both low-resolution and their corresponding high-resolution images. The challenge encompasses three sub-tracks, specifically the Inference Runtime, FLOPs (Floating Point Operations Per Second), and Parameters, in addition to a main track known as Overall Performance, which is comprised of these three sub-tracks. The baseline method in NTIRE2024_ESR is [RLFN](https://arxiv.org/pdf/2205.07514.pdf) (*Kong, et al, 2022*), the winner of NTIRE2022 Efficient Super-Resolution Challenge. Details are shown below:
 
 - Sub-track 1: **Inference Runtime**, the aim is to obtain a network design / solution with the lowest inference time (runtime) on a common GPU (i.e., NVIDIA GeForce RTX 3090 GPU) while being constrained to maintain or improve over the baseline method RLFN in terms of number of parameters, FLOPs, and the PSNR result.
 
-- Sub-track 2: **Parameters**, the aim is to obtain a network design / solution with the lowest amount of parameters while being constrained to maintain or improve the PSNR result, the FLOPs, and the inference time (runtime) of RLFN.
+- Sub-track 2: **FLOPs**, the aim is to obtain a network design / solution with the lowest amount of FLOPs while being constrained to maintain or improve the PSNR result, FLOPs, and the inference time (runtime) of RLFN.
 
-- Sub-track 3: **FLOPs**, the aim is to obtain a network design / solution with the lowest amount of FLOPs while being constrained to maintain or improve the PSNR result, FLOPs, and the inference time (runtime) of RLFN.
+- Sub-track 3: **Parameters**, the aim is to obtain a network design / solution with the lowest amount of parameters while being constrained to maintain or improve the PSNR result, the FLOPs, and the inference time (runtime) of RLFN.
 
-- Main-track: **Overall Performance** (Runtime, Parameters, FLOPs,) the aim is to obtain a network design / solution with the best overall performance in terms of number of parameters, FLOPS, and inference time on a common GPU (i.e., NVIDIA GeForce RTX 3090 GPU).
+- Main-track: **Overall Performance** (Runtime, Parameters, FLOPs,) the aim is to obtain a network design / solution with the best overall performance in terms of inference runtime, FLOPS, and parameters on a common GPU (i.e., NVIDIA GeForce RTX 3090 GPU).
 
-It's important to highlight that to determine the final ranking and challenge winners, greater weight will be given to teams or participants who demonstrate improvements in more than one aspect (runtime, parameters, FLOPs) over the provided reference solution.
+It's important to highlight that to determine the final ranking and challenge winners, greater weight will be given to teams or participants who demonstrate improvements in more than one aspect (runtime, FLOPs, and parameters) over the provided reference solution.
 
 To ensure fairness in the evaluation process, it is imperative to adhere to the following guidelines:
 
@@ -142,22 +142,28 @@ After the organizers receive all the submitted codes/checkpoints/results, three 
 
 - Step1: The organizers will execute each model five times to reevaluate all submitted methods on the same device, specifically the NVIDIA GeForce RTX 3090. The average results of these five runs will be documented for each metric.
 - Step2: To ensure PSNR consistency with the baseline method RLFN, PSNR checks will be conducted for all submitted methods. Any method with a PSNR below 26.90 dB on the LSDIR_DIV2K_valid dataset or less than 26.99 on the LSDIR_DIV2K_test datasets will be excluded from the comparison list for the remaining rankings. 
-- Step3: For the rest, a comparison score will be calculated as:
+- Step3: For the rest, the *Score_Runtime*, *Score_FLOPs*, and the *Score_Params* will be calculated as follows:
 
-    *Score = 0.7 \* Score_Runtime + 0.15 \* Score_FLOPs + 0.15 \* Score_Params*
- 
-    and **The Lower The Better**. 
+```
+     Score_Runtime = exp(2*Runtime / Runtime_RLFN)
+    
+     Score_FLOPs = exp(2*FLOPs / FLOPs_RLFN)
+     
+     Score_Params = exp(2*Params / Params_RLFN)
+```
+-   Step4: The final comparison score will be calculated as follows:
+```
+    Score_Final = 0.7*Score_Runtime + 0.15*Score_FLOPs + 0.15*Score_Params
+```
+Let's Take the baseline as an example, given the results (i.e., average Runtime_RLFN = 13.54 ms, FLOPs_RLFN = 19.70 G, and Params_RLFN = 0.317 M) of RLFN, we have:
+```
+    Score_Runtime = 7.3891
+    Score_FLOPs = 7.3891
+    Score_Params = 7.3891
+    Score_Final = 7.3891 
+```
 
-Note that in the Step3: 
-- *Score_Runtime = exp(2 * Runtime / Runtime_RLFN)*
-- *Score_FLOPs = exp(2 * FLOPs / FLOPs_RLFN)*
-- *Score_Params = exp(2 * Params / Params_RLFN)*
-
-Specifically, given the results (i.e., average Runtime_RLFN = 13.54 ms, FLOPs_RLFN = 19.70 G, and Params_RLFN = 0.317 M) of the baseline method RLFN, we have:
-- Score_Runtime = 7.3891
-- Score_FLOPs = 7.3891
-- Score_Params = 7.3891
-- Score = 7.3891
+The ranking for each sub-track will be generated based on the corresponding Score (i.e., Score_Runtime, Score_FLOPs, and Score_Params), while for the main track, the ranking will be determined by the Score_Final.
 
 
 ## Organizers
