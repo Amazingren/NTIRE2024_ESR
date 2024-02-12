@@ -139,9 +139,7 @@ After the organizers receive all the submitted codes/checkpoints/results, there 
  
     and **The Lower The Better**. 
 
-Note that in the Step3, *Score_Runtime = exp(2 * Runtime / Runtime_RLFN)*, *Score_FLOPs = exp(2 * FLOPs / FLOPs_RLFN)*, and *Score_Params = exp(2 * Params / Params_RLFN)*. 
-
-The reference results of the baseline method RLFN (i.e., Runtime_RLFN, FLOPs_RLFN, Params_RLFN, and PSNR performance) can be found in the corresponding NTIRE2024_ESR website.
+Note that in the Step3, *Score_Runtime = exp(2 * Runtime / Runtime_RLFN)*, *Score_FLOPs = exp(2 * FLOPs / FLOPs_RLFN)*, and *Score_Params = exp(2 * Params / Params_RLFN)*. Runtime_RLFN, FLOPs_RLFN, and Params_RLFN, are the evaluation results of the baseline method RLFN. RLFN_baseline. 
 
 
 ## Organizers
