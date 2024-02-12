@@ -8,12 +8,17 @@
 
 Jointly with NTIRE workshop we have a challenge on Efficient Super-Resolution, that is, the task of super-resolving (increasing the resolution) an input image with a magnification factor x4 based on a set of prior examples of low and corresponding high resolution images. The challenge has three tracks.
 
-The aim is to devise a network that reduces one or several aspects such as runtime, parameters, FLOPs, activations, and depth of RLFN (https://arxiv.org/pdf/2205.07514.pdf), the winner solution of the NTIRE2022 Efficient Super-Resolution Challenge, while at least maintaining PSNR of 26.96 dB on LSDIR_DIV2K validation datasets and PSNR 27.07 on LSDIR_DIV2K test datasets.
+The aim is to devise a network that reduces one or several aspects such as runtime, parameters, and FLOPs of RLFN (https://arxiv.org/pdf/2205.07514.pdf), the winner of NTIRE2022 Efficient Super-Resolution Challenge, while at least maintaining a threshold PSNR on the LSDIR_DIV2K_valid (26.90 dB) datasets and LSDIR_DIV2K_test datasets (27.00 dB).
 
-Note that for the final ranking and challenge winners we are weighing more the teams/participants improving in more than one aspect (runtime, parameters, FLOPs, activations, depths) over the provided reference solution.
+Note that for the final ranking and challenge winners we are weighing more the teams/participants improving in more than one aspect (runtime, parameters, FLOPs) over the provided reference solution.
 
-For the sake of fairness, please do not train your model with the validation LR images, validation HR images, and testing LR images.
+To ensure fairness in the evaluation process, it is imperative to adhere to the following guidelines:
 
+- **Avoid Training with Specific Image Sets:**
+    Refrain from training your model using the validation LR images, validation HR images, or testing LR images. The test datasets will not be disclosed, making PSNR performance on the test datasets a crucial factor in the final evaluation.
+
+- **PSNR Threshold and Ranking Eligibility:**
+    Methods with a PSNR below the specified threshold (i.e., 26.90 dB on LSDIR_DIV2K_valid and, 27.00 dB on LSDIR_DIV2K_test) will not be considered for the subsequent ranking process. It is essential to meet the minimum PSNR requirement to be eligible for further evaluation and ranking.
 ## The Environments
 The evaluation environments adopted by us is recorded in the `requirements.txt`. After you built your own basic Python setup via either *virtual environment* or *anaconda*, please try to keep similar to it via:
 
