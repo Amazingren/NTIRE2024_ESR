@@ -67,7 +67,7 @@ After downloaded all the necessary validate dataset ([LSDIR_DIV2K_valid_LR](http
     - Be sure the change the directories `--data_dir` and `--save_dir`.
 3. More detailed example-command can be found in `run.sh` for your convenience.
 
-As a reference, we provide the Performances of RLFN (baseline method) below:
+As a reference, we provide the results of RLFN (baseline method) below:
 - Average PSNR on LSDIR_DIV2K validation data: 26.96 dB
 - Average PSNR on LSDIR_DIV2K test data: 27.07 dB
 - Number of parameters: 0.317 M
