@@ -27,7 +27,7 @@ The evaluation environments adopted by us is recorded in the `requirements.txt`.
 or take it as a reference based on your original environments.
 
 ## The Validation datasets
-After downloaded all the necessary validate dataset([LSDIR_DIV2K_valid_LR](https://drive.google.com/file/d/17bYWToyxHOTsjvSkWxLNkoUs_PYVuUc9/view?usp=sharing) and [LSDIR_DIV2K_valid_HR](https://drive.google.com/file/d/1qgjV2y47TxR6TriaGfqKj6FTSkWYdEZ8/view?usp=drive_link)), please organize them as follows:
+After downloaded all the necessary validate dataset ([LSDIR_DIV2K_valid_LR](https://drive.google.com/file/d/17bYWToyxHOTsjvSkWxLNkoUs_PYVuUc9/view?usp=sharing) and [LSDIR_DIV2K_valid_HR](https://drive.google.com/file/d/1qgjV2y47TxR6TriaGfqKj6FTSkWYdEZ8/view?usp=drive_link)), please organize them as follows:
 
 ```
 |NTIRE2024_ESR_Challenge/
@@ -66,6 +66,17 @@ After downloaded all the necessary validate dataset([LSDIR_DIV2K_valid_LR](https
     ```
     - Be sure the change the directories `--data_dir` and `--save_dir`.
 3. More detailed example-command can be found in `run.sh` for your convenience.
+
+As a reference, we provide the Performances of RLFN (baseline method) below:
+- Average PSNR on LSDIR_DIV2K validation data: 26.96 dB
+- Average PSNR on LSDIR_DIV2K test data: 27.07 dB
+- Number of parameters: 0.317M
+- Runtime: 16.18 ms (LSDIR_DIV2K_valid data), 10.89 ms (LSDIR_DIV2K_test data)
+- FLOPs on an LR image of size 256×256: 19.70 G
+
+    Please note that the results reported above are the average of 5 runs, and each run is conducted on the same device (i.e., NVIDIA GeForce RTX 3090 GPU).
+
+
 
 ## How to add your model to this baseline?
 
