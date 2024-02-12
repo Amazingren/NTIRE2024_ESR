@@ -43,50 +43,23 @@ def select_model(args, device):
     return model, name, data_range, tile
 
 
-def select_dataset(data_dir, dataset_name, mode):
+def select_dataset(data_dir, mode):
+    # inference on the LSDIR_DIV2K_test set
     if mode == "test":
-        if dataset_name == "DIV2K":
-            path = [
-                (
-                    os.path.join(data_dir, f"DIV2K_test_LR/{i:04}x4.png"),
-                    os.path.join(data_dir, f"DIV2K_test_HR/{i:04}.png")
-                ) for i in range(901, 1001)
-            ]
-            # [f"DIV2K_test_LR/{i:04}.png" for i in range(901, 1001)]
-        elif dataset_name == "LSDIR":
-            path = [
-                (
-                    os.path.join(data_dir, f"LSDIR_test_LR/{i:07}x4.png"),
-                    os.path.join(data_dir, f"LSDIR_test_HR/{i:07}.png")
-                ) for i in range(1, 101)
-            ]
-        else:
-            raise NotImplementedError(f"{dataset_name} is not the provided dataset")
-
-    elif mode == "valid":
-        if dataset_name == "DIV2K":
-            path = [
-                (
-                    os.path.join(data_dir, f"DIV2K_valid_LR/{i:04}x4.png"),
-                    os.path.join(data_dir, f"DIV2K_valid_HR/{i:04}.png")
-                ) for i in range(801, 901)
-            ]
-        elif dataset_name == "LSDIR":
-            path = [
-                (
-                    os.path.join(data_dir, f"LSDIR_valid_LR/{i:07}x4.png"),
-                    os.path.join(data_dir, f"LSDIR_valid_HR/{i:07}.png")
-                ) for i in range(1, 101)
-            ]
-        else:
-            raise NotImplementedError(f"{dataset_name} is not the provided dataset")
-
-    elif mode == "hybrid_test":
         path = [
             (
                 p.replace("_HR", "_LR").replace(".png", "x4.png"),
                 p
             ) for p in sorted(glob.glob(os.path.join(data_dir, "LSDIR_DIV2K_test_HR/*.png")))
+        ]
+
+    # inference on the LSDIR_DIV2K_valid set
+    elif mode == "valid":
+        path = [
+            (
+                p.replace("_HR", "_LR").replace(".png", "x4.png"),
+                p
+            ) for p in sorted(glob.glob(os.path.join(data_dir, "LSDIR_DIV2K_valid_HR/*.png")))
         ]
     else:
         raise NotImplementedError(f"{mode} is not implemented in select_dataset")
@@ -139,7 +112,7 @@ def run(model, model_name, data_range, tile, logger, device, args, mode="test"):
     # --------------------------------
     # dataset path
     # --------------------------------
-    data_path = select_dataset(args.data_dir, args.dataset_name, mode)
+    data_path = select_dataset(args.data_dir, mode)
     save_path = os.path.join(args.save_dir, model_name, mode)
     util.mkdir(save_path)
 
@@ -244,21 +217,15 @@ def main(args):
         # restore image
         # --------------------------------
 
-        if args.hybrid_test:
-            # inference on both the DIV2K and LSDIR test set
-            valid_results = run(model, model_name, data_range, tile, logger, device, args, mode="hybrid_test")
-            # record PSNR, runtime
-            results[model_name] = valid_results
-        else:
-            # inference on the validation set
-            valid_results = run(model, model_name, data_range, tile, logger, device, args, mode="valid")
-            # record PSNR, runtime
-            results[model_name] = valid_results
+        # inference on both the DIV2K and LSDIR validate sets
+        valid_results = run(model, model_name, data_range, tile, logger, device, args, mode="valid")
+        # record PSNR, runtime
+        results[model_name] = valid_results
 
-            # inference on the test set
-            if args.include_test:
-                test_results = run(model, model_name, data_range, tile, logger, device, args, mode="test")
-                results[model_name].update(test_results)
+        # inference conducted by the organizer
+        if args.include_test:
+            test_results = run(model, model_name, data_range, tile, logger, device, args, mode="test")
+            results[model_name].update(test_results)
 
         input_dim = (3, 256, 256)  # set the input dimension
         activations, num_conv = get_model_activation(model, input_dim)
@@ -266,14 +233,16 @@ def main(args):
         logger.info("{:>16s} : {:<.4f} [M]".format("#Activations", activations))
         logger.info("{:>16s} : {:<d}".format("#Conv2d", num_conv))
 
-        flops = get_model_flops(model, input_dim, False)
-        flops = flops/10**9
-        logger.info("{:>16s} : {:<.4f} [G]".format("FLOPs", flops))
-
-        # fvcore is also used in NTIRE2024_ESR for FLOPs 
-        # flops = FlopCountAnalysis(model, input_dim).total()
+        # The FLOPs calculation in previous NTIRE_ESR Challenge
+        # flops = get_model_flops(model, input_dim, False)
         # flops = flops/10**9
         # logger.info("{:>16s} : {:<.4f} [G]".format("FLOPs", flops))
+
+        # fvcore is used in NTIRE2024_ESR for FLOPs calculation
+        input_fake = torch.rand(1, 3, 256, 256).to(device)
+        flops = FlopCountAnalysis(model, input_fake).total()
+        flops = flops/10**9
+        logger.info("{:>16s} : {:<.4f} [G]".format("FLOPs", flops))
 
         num_parameters = sum(map(lambda x: x.numel(), model.parameters()))
         num_parameters = num_parameters/10**6
@@ -290,15 +259,10 @@ def main(args):
         fmt = "{:20s}\t{:10s}\t{:14s}\t{:10s}\t{:10s}\t{:8s}\t{:8s}\t{:8s}\n"
         s = fmt.format("Model", "Val PSNR", "Val Time [ms]", "Params [M]", "FLOPs [G]", "Acts [M]", "Mem [M]", "Conv")
     for k, v in results.items():
-        # print(v.keys())
-        if args.hybrid_test:
-            val_psnr = f"{v['hybrid_test_ave_psnr']:2.2f}"
-            val_time = f"{v['hybrid_test_ave_runtime']:3.2f}"
-            mem = f"{v['hybrid_test_memory']:2.2f}"
-        else:
-            val_psnr = f"{v['valid_ave_psnr']:2.2f}"
-            val_time = f"{v['valid_ave_runtime']:3.2f}"
-            mem = f"{v['valid_memory']:2.2f}"
+        val_psnr = f"{v['valid_ave_psnr']:2.2f}"
+        val_time = f"{v['valid_ave_runtime']:3.2f}"
+        mem = f"{v['valid_memory']:2.2f}"
+        
         num_param = f"{v['num_parameters']:2.3f}"
         flops = f"{v['flops']:2.2f}"
         acts = f"{v['activations']:2.2f}"
@@ -319,13 +283,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser("NTIRE2024-EfficientSR")
     parser.add_argument("--data_dir", default="../", type=str)
     parser.add_argument("--save_dir", default="../results", type=str)
-    parser.add_argument("--dataset_name", default="DIV2K", 
-                        type=str, 
-                        help= "Choose 'DIV2K or 'LSDIR' for validate and test only, \
-                        when 'hybrid_test' is applied, no need to specify 'dataset_name'")
     parser.add_argument("--model_id", default=0, type=int)
     parser.add_argument("--include_test", action="store_true", help="Inference on the DIV2K test set")
-    parser.add_argument("--hybrid_test", action="store_true", help="Hybrid test on DIV2K and LSDIR test set")
     parser.add_argument("--ssim", action="store_true", help="Calculate SSIM")
 
     args = parser.parse_args()

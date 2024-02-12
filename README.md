@@ -8,14 +8,13 @@
 
 Jointly with NTIRE workshop we have a challenge on Efficient Super-Resolution, that is, the task of super-resolving (increasing the resolution) an input image with a magnification factor x4 based on a set of prior examples of low and corresponding high resolution images. The challenge has three tracks.
 
-The aim is to devise a network that reduces one or several aspects such as runtime, parameters, FLOPs, activations, and depth of RLFN (https://arxiv.org/pdf/2205.07514.pdf), the winner solution of the NTIRE2022 Efficient Super-Resolution Challenge, while at least maintaining PSNR of 29.00dB on DIV2K validation datasets and PSNR 28.72 on DIV2K test set.
+The aim is to devise a network that reduces one or several aspects such as runtime, parameters, FLOPs, activations, and depth of RLFN (https://arxiv.org/pdf/2205.07514.pdf), the winner solution of the NTIRE2022 Efficient Super-Resolution Challenge, while at least maintaining PSNR of 26.96 dB on LSDIR_DIV2K validation datasets and PSNR 27.07 on LSDIR_DIV2K test datasets.
 
 Note that for the final ranking and challenge winners we are weighing more the teams/participants improving in more than one aspect (runtime, parameters, FLOPs, activations, depths) over the provided reference solution.
 
 For the sake of fairness, please do not train your model with the validation LR images, validation HR images, and testing LR images.
 
 ## The Environments
-
 The evaluation environments adopted by us is recorded in the `requirements.txt`. After you built your own basic Python setup via either *virtual environment* or *anaconda*, please try to keep similar to it via:
 
 ```pip install -r requirements.txt```
@@ -23,26 +22,28 @@ The evaluation environments adopted by us is recorded in the `requirements.txt`.
 or take it as a reference based on your original environments.
 
 ## The Validation datasets
-After downloaded all the necessary validate datasets, please organize them as follows:
+After downloaded all the necessary validate dataset([LSDIR_DIV2K_valid_LR](https://drive.google.com/file/d/17bYWToyxHOTsjvSkWxLNkoUs_PYVuUc9/view?usp=sharing) and [LSDIR_DIV2K_valid_HR](https://drive.google.com/file/d/1qgjV2y47TxR6TriaGfqKj6FTSkWYdEZ8/view?usp=drive_link)), please organize them as follows:
 
 ```
 |NTIRE2024_ESR_Challenge/
-|--DIV2K_valid_HR/
+|--LSDIR_DIV2K_valid_HR/
+|    |--000001.png
+|    |--000002.png
+|    |--...
+|    |--000100.png
 |    |--0801.png
+|    |--0802.png
 |    |--...
 |    |--0900.png
-|--DIV2K_valid_LR/
+|--LSDIR_DIV2K_valid_LR/
+|    |--000001x4.png
+|    |--000002x4.png
+|    |--...
+|    |--000100x4.png
 |    |--0801x4.png
+|    |--0802x4.png
 |    |--...
-|    |--0900x4.png
-|--LSDIR_valid_HR/
-|    |--0000001.png
-|    |--...
-|    |--0000100.png
-|--LSDIR_valid_LR/
-|    |--0000001x4.png
-|    |--...
-|    |--0000100x4.png
+|    |--0900.png
 |--NTIRE2024_ESR/
 |    |--...
 |    |--test_demo.py
@@ -95,23 +96,42 @@ After downloaded all the necessary validate datasets, please organize them as fo
     print("{:>16s} : {:<.4f} [M]".format("#Activations", activations))
     print("{:>16s} : {:<d}".format("#Conv2d", num_conv))
 
-    flops = get_model_flops(model, input_dim, False)
-    flops = flops / 10 ** 9
-    print("{:>16s} : {:<.4f} [G]".format("FLOPs", flops))
+    # The FLOPs calculation in previous NTIRE_ESR Challenge
+    # flops = get_model_flops(model, input_dim, False)
+    # flops = flops / 10 ** 9
+    # print("{:>16s} : {:<.4f} [G]".format("FLOPs", flops))
 
-    # fvcore is also used in NTIRE2024_ESR for FLOPs calculation
-    # flops = FlopCountAnalysis(model, input_dim).total()
-    # flops = flops/10**9
-    # logger.info("{:>16s} : {:<.4f} [G]".format("FLOPs", flops))
+    # fvcore is used in NTIRE2024_ESR for FLOPs calculation
+    input_fake = torch.rand(1, 3, 256, 256).to(device)
+    flops = FlopCountAnalysis(model, input_fake).total()
+    flops = flops/10**9
+    print("{:>16s} : {:<.4f} [G]".format("FLOPs", flops))
 
     num_parameters = sum(map(lambda x: x.numel(), model.parameters()))
     num_parameters = num_parameters / 10 ** 6
     print("{:>16s} : {:<.4f} [M]".format("#Params", num_parameters))
 ```
 
+## How the Ranking Strategy Works?
+After the organizers receive all the submitted codes/checkpoints/results, there are three steps are adopted:
+
+- Step1: The organizers will execute each model five times to reevaluate all submitted methods on the same device, specifically the NVIDIA GeForce RTX 3090. The average results of these five runs will be documented for each metric.
+- Step2: To ensure PSNR consistency with the baseline method RLFN, PSNR checks will be conducted for all submitted methods. Any method with a PSNR below 26.50 dB on the LSDIR_DIV2K_valid dataset or less than 26.90 on the LSDIR_DIV2K_test datasets will be excluded from the comparison list for the remaining rankings. 
+- Step3: For the rest, a comparison score will be calculated as:
+
+    *Score = 0.7 \* Score_Runtime + 0.15 \* Score_FLOPs + 0.15 \* Score_Params*
+ 
+    and **The Lower The Better**. 
+
+Note that in the Step3, *Score_Runtime = exp(2 * Runtime / Runtime_RLFN)*, *Score_FLOPs = exp(2 * FLOPs / FLOPs_RLFN)*, and *Score_Params = exp(2 * Params / Params_RLFN)*. 
+
+The reference results of the baseline method RLFN (i.e., Runtime_RLFN, FLOPs_RLFN, Params_RLFN, and PSNR performance) can be found in the corresponding NTIRE2024_ESR website.
+
+
 ## Organizers
-- Yawei Li (yawei.li@vision.ee.ethz.ch), 
+- Yawei Li (yawei.li@vision.ee.ethz.ch)
 - Bin Ren (bin.ren@unitn.it)
+- Nancy Mehta (nancy.mehta@uni-wuerzburg.de)
 - Radu Timofte (Radu.Timofte@uni-wuerzburg.de) 
 
 If you have any question, feel free to reach out the contact persons and direct managers of the NTIRE challenge.
