@@ -8,7 +8,7 @@
 
 Jointly with NTIRE workshop we have a challenge on Efficient Super-Resolution, that is, the task of super-resolving (increasing the resolution) an input image with a magnification factor x4 based on a set of prior examples of low and corresponding high resolution images. The challenge has three tracks.
 
-The aim is to devise a network that reduces one or several aspects such as runtime, parameters, and FLOPs of RLFN (https://arxiv.org/pdf/2205.07514.pdf), the winner of NTIRE2022 Efficient Super-Resolution Challenge, while at least maintaining a threshold PSNR on the LSDIR_DIV2K_valid (26.90 dB) datasets and LSDIR_DIV2K_test datasets (27.00 dB).
+The aim is to devise a network that reduces one or several aspects such as runtime, parameters, and FLOPs of RLFN (https://arxiv.org/pdf/2205.07514.pdf), the winner of NTIRE2022 Efficient Super-Resolution Challenge, while at least maintaining a threshold PSNR on the LSDIR_DIV2K_valid (26.90 dB) datasets and LSDIR_DIV2K_test datasets (26.99 dB).
 
 Note that for the final ranking and challenge winners we are weighing more the teams/participants improving in more than one aspect (runtime, parameters, FLOPs) over the provided reference solution.
 
@@ -70,8 +70,8 @@ After downloaded all the necessary validate dataset ([LSDIR_DIV2K_valid_LR](http
 As a reference, we provide the Performances of RLFN (baseline method) below:
 - Average PSNR on LSDIR_DIV2K validation data: 26.96 dB
 - Average PSNR on LSDIR_DIV2K test data: 27.07 dB
-- Number of parameters: 0.317M
-- Runtime: 16.18 ms (LSDIR_DIV2K_valid data), 10.89 ms (LSDIR_DIV2K_test data)
+- Number of parameters: 0.317 M
+- Runtime: 13.54 ms (Average runtime of 16.18 ms on LSDIR_DIV2K_valid data and 10.89 ms on LSDIR_DIV2K_test data)
 - FLOPs on an LR image of size 256×256: 19.70 G
 
     Please note that the results reported above are the average of 5 runs, and each run is conducted on the same device (i.e., NVIDIA GeForce RTX 3090 GPU).
@@ -132,14 +132,23 @@ As a reference, we provide the Performances of RLFN (baseline method) below:
 After the organizers receive all the submitted codes/checkpoints/results, there are three steps are adopted:
 
 - Step1: The organizers will execute each model five times to reevaluate all submitted methods on the same device, specifically the NVIDIA GeForce RTX 3090. The average results of these five runs will be documented for each metric.
-- Step2: To ensure PSNR consistency with the baseline method RLFN, PSNR checks will be conducted for all submitted methods. Any method with a PSNR below 26.50 dB on the LSDIR_DIV2K_valid dataset or less than 26.90 on the LSDIR_DIV2K_test datasets will be excluded from the comparison list for the remaining rankings. 
+- Step2: To ensure PSNR consistency with the baseline method RLFN, PSNR checks will be conducted for all submitted methods. Any method with a PSNR below 26.90 dB on the LSDIR_DIV2K_valid dataset or less than 26.90 on the LSDIR_DIV2K_test datasets will be excluded from the comparison list for the remaining rankings. 
 - Step3: For the rest, a comparison score will be calculated as:
 
     *Score = 0.7 \* Score_Runtime + 0.15 \* Score_FLOPs + 0.15 \* Score_Params*
  
     and **The Lower The Better**. 
 
-Note that in the Step3, *Score_Runtime = exp(2 * Runtime / Runtime_RLFN)*, *Score_FLOPs = exp(2 * FLOPs / FLOPs_RLFN)*, and *Score_Params = exp(2 * Params / Params_RLFN)*. Runtime_RLFN, FLOPs_RLFN, and Params_RLFN, are the evaluation results of the baseline method RLFN. RLFN_baseline. 
+Note that in the Step3: 
+- *Score_Runtime = exp(2 * Runtime / Runtime_RLFN)*
+- *Score_FLOPs = exp(2 * FLOPs / FLOPs_RLFN)*
+- *Score_Params = exp(2 * Params / Params_RLFN)*
+
+Specifically, given the results (i.e., average Runtime_RLFN = 13.54 ms, FLOPs_RLFN = 19.70 G, and Params_RLFN = 0.317 M) of the baseline method RLFN, we have:
+- Score_Runtime = 7.3891
+- Score_FLOPs = 7.3891
+- Score_Params = 7.3891
+- Score = 7.3891
 
 
 ## Organizers
