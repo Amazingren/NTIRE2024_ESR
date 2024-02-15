@@ -12,7 +12,7 @@ In collaboration with the NTIRE workshop, we are hosting a challenge focused on 
 
 - :gem: Sub-track 1: **Inference Runtime**, the aim is to obtain a network design / solution with the lowest inference time (runtime) on a common GPU (i.e., NVIDIA GeForce RTX 3090 GPU) while being constrained to maintain or improve over the baseline method RLFN in terms of number of parameters, FLOPs, and the PSNR result.
 
-- :gem: Sub-track 2: **FLOPs**, the aim is to obtain a network design / solution with the lowest amount of FLOPs on a common GPU (i.e., NVIDIA GeForce RTX 3090 GPU) while being constrained to maintain or improve the inferece runtime, the parameters, and the PSNR results of RLFN.
+- :gem: Sub-track 2: **FLOPs**, the aim is to obtain a network design / solution with the lowest amount of FLOPs on a common GPU (i.e., NVIDIA GeForce RTX 3090 GPU) while being constrained to maintain or improve the inference runtime, the parameters, and the PSNR results of RLFN.
 
 - :gem: Sub-track 3: **Parameters**, the aim is to obtain a network design / solution with the lowest amount of parameters on a common GPU (i.e., NVIDIA GeForce RTX 3090 GPU) while being constrained to maintain the FLOPs, the inference time (runtime), and the PSNR result of RLFN.
 
@@ -80,7 +80,7 @@ As a reference, we provide the results of RLFN (baseline method) below:
 - Average PSNR on LSDIR_DIV2K_test: 27.07 dB
 - Number of parameters: 0.317 M
 - Runtime: 13.54 ms (Average runtime of 16.18 ms on LSDIR_DIV2K_valid data and 10.89 ms on LSDIR_DIV2K_test data)
-- FLOPs on an LR image of size 256×256: 19.70 G
+- FLOPs on an LR image of size 256×256: 19.67 G
 
     Please note that the results reported above are the average of 5 runs, and each run is conducted on the same device (i.e., NVIDIA GeForce RTX 3090 GPU).
 
@@ -154,7 +154,7 @@ After the organizers receive all the submitted codes/checkpoints/results, four s
 ```
     Score_Final = 0.7*Score_Runtime + 0.15*Score_FLOPs + 0.15*Score_Params
 ```
-Let's take the baseline as an example, given the results (i.e., average Runtime_RLFN = 13.54 ms, FLOPs_RLFN = 19.70 G, and Params_RLFN = 0.317 M) of RLFN, we have:
+Let's take the baseline as an example, given the results (i.e., average Runtime_RLFN = 13.54 ms, FLOPs_RLFN = 19.67 G, and Params_RLFN = 0.317 M) of RLFN, we have:
 ```
     Score_Runtime = 7.3891
     Score_FLOPs = 7.3891
