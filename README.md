@@ -161,7 +161,7 @@ Let's take the baseline as an example, given the results (i.e., average Runtime_
     Score_Params = 7.3891
     Score_Final = 7.3891 
 ```
-The ranking for each sub-track will be generated based on the corresponding Score (i.e., *Score_Runtime*, *Score_FLOPs*, and *Score_Params*), while for the main track, the ranking will be determined by the *Score_Final*.
+:heavy_exclamation_mark:The ranking for each sub-track will be generated based on the corresponding Score (i.e., *Score_Runtime*, *Score_FLOPs*, and *Score_Params*), while for the main track, the ranking will be determined by the *Score_Final*.
 
 
 ## Organizers
