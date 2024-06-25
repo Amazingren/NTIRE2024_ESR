@@ -4,6 +4,12 @@
 <img src="https://github.com/Amazingren/NTIRE2024_ESR/blob/main/figs/logo.png" width="400px"/> 
 </div>
 
+## News
+- :t-rex: June 25th, 2024: All the solution method and the corresponding checkpoints are uploaded.
+- :t-rex: June 25th, 2024: The report paper can be found via:[https://arxiv.org/abs/2404.10343](https://arxiv.org/abs/2404.10343). Please note that we have correct the the order of "#Params" and "FLOPs" in Table 1 of the report paper. We apiligize for the mistake and thanks for point it out from Hongyuan Wang (why5200@stu.xju.edu.cn).
+
+
+
 ## About the Challenge
 
 In collaboration with the NTIRE workshop, we are hosting a challenge focused on Efficient Super-Resolution ([NTIRE2024_ESR](https://codalab.lisn.upsaclay.fr/competitions/17547)). This involves the task of enhancing the resolution of an input image by a factor of x4, utilizing a set of pre-existing examples comprising both low-resolution and their corresponding high-resolution images. The challenge encompasses one :trophy: main track which consists of three :gem: sub-tracks, i.e., the Inference Runtime, FLOPs (Floating Point Operations Per Second), and Parameters. The baseline method in NTIRE2024_ESR is [RLFN](https://arxiv.org/pdf/2205.07514.pdf) (*Kong, et al, 2022*), the winner of NTIRE2022 Efficient Super-Resolution Challenge. Details are shown below:
