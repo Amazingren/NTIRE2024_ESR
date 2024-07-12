@@ -5,8 +5,9 @@
 </div>
 
 ## News
+- :t-rex: July 12th, 2024: The Camera-Ready version of our challenge report is avaliable at this [LINK](https://openaccess.thecvf.com/content/CVPR2024W/NTIRE/papers/Ren_The_Ninth_NTIRE_2024_Efficient_Super-Resolution_Challenge_Report_CVPRW_2024_paper.pdf)!
 - :t-rex: June 25th, 2024: All the solution method and the corresponding checkpoints are uploaded.
-- :t-rex: June 25th, 2024: The report paper can be found via:[https://arxiv.org/abs/2404.10343](https://arxiv.org/abs/2404.10343). Please note that we have correct the the order of "#Params" and "FLOPs" in Table 1 of the report paper. We apiligize for the mistake and thanks for point it out from Hongyuan Wang (why5200@stu.xju.edu.cn).
+- :t-rex: June 25th, 2024: The report paper can be found via:[https://arxiv.org/abs/2404.10343](https://arxiv.org/abs/2404.10343). Please note that we have correct the the order of "#Params" and "FLOPs" in Table 1 of the report paper. We apiligize for the mistake and thanks for pointing it out from Hongyuan Wang (why5200@stu.xju.edu.cn).
 
 
 
@@ -169,6 +170,18 @@ Let's take the baseline as an example, given the results (i.e., average Runtime_
 ```
 :heavy_exclamation_mark:The ranking for each sub-track will be generated based on the corresponding Score (i.e., *Score_Runtime*, *Score_FLOPs*, and *Score_Params*), while for the main track, the ranking will be determined by the *Score_Final*.
 
+
+## References
+If you feel this codebase and the report paper is useful for you, please cite our challenge report:
+```
+@inproceedings{ren2024ninth,
+  title={The ninth NTIRE 2024 efficient super-resolution challenge report},
+  author={Ren, Bin and Li, Yawei and Mehta, Nancy and Timofte, Radu and Yu, Hongyuan and Wan, Cheng and Hong, Yuxin and Han, Bingnan and Wu, Zhuoyuan and Zou, Yajun and others},
+  booktitle={Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition Workshop},
+  pages={6595--6631},
+  year={2024}
+}
+```
 
 ## Organizers
 - Yawei Li (yawei.li@vision.ee.ethz.ch)
