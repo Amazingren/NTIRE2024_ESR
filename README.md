@@ -177,7 +177,7 @@ If you feel this codebase and the report paper is useful for you, please cite ou
 @inproceedings{ren2024ninth,
   title={The ninth NTIRE 2024 efficient super-resolution challenge report},
   author={Ren, Bin and Li, Yawei and Mehta, Nancy and Timofte, Radu and Yu, Hongyuan and Wan, Cheng and Hong, Yuxin and Han, Bingnan and Wu, Zhuoyuan and Zou, Yajun and others},
-  booktitle={Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition Workshop},
+  booktitle={Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition Workshops},
   pages={6595--6631},
   year={2024}
 }
